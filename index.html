@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SMP IT Assaidiyyah - PPDB Premium</title>
+<title>Nara Coffee</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -15,12 +15,13 @@ margin:0;
 padding:0;
 box-sizing:border-box;
 font-family:'Poppins',sans-serif;
+scroll-behavior:smooth;
 }
 
 body{
-background:#eef3fb;
-overflow-x:hidden;
+background:#f7f4ef;
 color:#1d1d1d;
+overflow-x:hidden;
 }
 
 header{
@@ -28,20 +29,20 @@ position:fixed;
 top:0;
 left:0;
 width:100%;
-background:rgba(255,255,255,0.9);
-backdrop-filter:blur(10px);
-padding:20px 8%;
+padding:22px 8%;
 display:flex;
 justify-content:space-between;
 align-items:center;
+background:rgba(255,255,255,0.8);
+backdrop-filter:blur(12px);
 z-index:999;
 box-shadow:0 5px 20px rgba(0,0,0,0.05);
 }
 
 .logo{
-font-size:28px;
+font-size:30px;
 font-weight:700;
-color:#163d73;
+color:#6d4c41;
 }
 
 nav{
@@ -53,18 +54,23 @@ nav a{
 text-decoration:none;
 color:#333;
 font-weight:500;
+transition:0.3s;
+}
+
+nav a:hover{
+color:#a67c52;
 }
 
 .hero{
 min-height:100vh;
-background:
-linear-gradient(rgba(8,20,40,0.75),rgba(8,20,40,0.75)),
-url('https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1600&auto=format&fit=crop');
-background-size:cover;
-background-position:center;
 display:flex;
 align-items:center;
 padding:120px 8%;
+background:
+linear-gradient(rgba(20,15,10,0.55),rgba(20,15,10,0.55)),
+url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1600&auto=format&fit=crop');
+background-size:cover;
+background-position:center;
 color:white;
 }
 
@@ -74,7 +80,7 @@ animation:fadeUp 1.2s ease;
 }
 
 .hero h1{
-font-size:clamp(50px,8vw,90px);
+font-size:clamp(55px,8vw,100px);
 line-height:1;
 margin-bottom:25px;
 }
@@ -83,20 +89,18 @@ margin-bottom:25px;
 font-size:18px;
 line-height:1.9;
 margin-bottom:35px;
-color:#ececec;
+color:#f1f1f1;
 }
 
 .btn{
 display:inline-block;
 padding:16px 34px;
-background:#d9a441;
+background:#a67c52;
 color:white;
 text-decoration:none;
 border-radius:14px;
 font-weight:600;
 transition:0.3s;
-border:none;
-cursor:pointer;
 }
 
 .btn:hover{
@@ -104,13 +108,13 @@ transform:translateY(-5px);
 }
 
 section{
-padding:100px 8%;
+padding:110px 8%;
 }
 
 .title{
-font-size:clamp(40px,6vw,60px);
+font-size:clamp(42px,6vw,65px);
 margin-bottom:20px;
-color:#163d73;
+color:#6d4c41;
 }
 
 .desc{
@@ -120,102 +124,121 @@ max-width:850px;
 color:#555;
 }
 
-.cards{
+.about-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:25px;
-margin-top:50px;
+grid-template-columns:1fr 1fr;
+gap:60px;
+margin-top:60px;
+align-items:center;
 }
 
-.card{
-background:white;
-padding:35px;
-border-radius:24px;
-box-shadow:0 15px 40px rgba(0,0,0,0.06);
-transition:0.3s;
+.about-grid img{
+width:100%;
+height:550px;
+object-fit:cover;
+border-radius:28px;
+box-shadow:0 20px 50px rgba(0,0,0,0.12);
 }
 
-.card:hover{
-transform:translateY(-10px);
-}
-
-.card h3{
-font-size:28px;
-margin-bottom:15px;
-color:#163d73;
-}
-
-.card p{
-line-height:1.8;
-color:#666;
-}
-
-.login-section{
-background:white;
-padding:50px;
-border-radius:30px;
-box-shadow:0 20px 50px rgba(0,0,0,0.08);
+.menu-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:28px;
 margin-top:60px;
 }
 
-.form-group{
-margin-bottom:22px;
+.menu-card{
+background:white;
+padding:25px;
+border-radius:28px;
+box-shadow:0 15px 40px rgba(0,0,0,0.06);
+transition:0.4s;
+overflow:hidden;
 }
 
-.form-group label{
-display:block;
-margin-bottom:10px;
-font-weight:600;
+.menu-card:hover{
+transform:translateY(-10px);
 }
 
-.form-group input,
-.form-group textarea{
+.menu-card img{
 width:100%;
-padding:16px;
-border-radius:14px;
-border:1px solid #dcdcdc;
-font-size:16px;
+height:240px;
+object-fit:cover;
+border-radius:20px;
+margin-bottom:18px;
 }
 
-.form-group textarea{
-height:120px;
-resize:none;
+.menu-card h3{
+font-size:28px;
+margin-bottom:10px;
+color:#6d4c41;
 }
 
-.hidden{
-display:none;
+.menu-card p{
+line-height:1.8;
+color:#666;
+margin-bottom:15px;
 }
 
-.success{
-margin-top:20px;
-padding:18px;
-background:#d7f5df;
-color:#156c2f;
-border-radius:14px;
-display:none;
+.price{
+font-weight:700;
+font-size:22px;
+color:#a67c52;
 }
 
-.error{
-margin-top:20px;
-padding:18px;
-background:#ffdede;
-color:#a30000;
-border-radius:14px;
-display:none;
+.gallery{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:22px;
+margin-top:60px;
+}
+
+.gallery img{
+width:100%;
+height:280px;
+object-fit:cover;
+border-radius:24px;
+transition:0.4s;
+}
+
+.gallery img:hover{
+transform:scale(1.03);
+}
+
+.contact-box{
+background:white;
+padding:45px;
+border-radius:30px;
+margin-top:60px;
+box-shadow:0 20px 50px rgba(0,0,0,0.08);
+}
+
+.contact-box p{
+font-size:18px;
+line-height:2;
+color:#555;
 }
 
 footer{
-background:#163d73;
-padding:40px;
-text-align:center;
+background:#4e342e;
 color:white;
-margin-top:80px;
+padding:45px;
+text-align:center;
 }
 
-@keyframes float{
-0%{transform:translateY(0px);}
-50%{transform:translateY(-10px);}
-100%{transform:translateY(0px);}
+.float-btn{
+position:fixed;
+bottom:25px;
+right:25px;
+background:#25d366;
+color:white;
+padding:18px 24px;
+border-radius:100px;
+text-decoration:none;
+font-weight:600;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+animation:float 3s ease-in-out infinite;
+z-index:999;
 }
 
 @keyframes fadeUp{
@@ -230,6 +253,12 @@ transform:translateY(0);
 }
 }
 
+@keyframes float{
+0%{transform:translateY(0px);} 
+50%{transform:translateY(-10px);} 
+100%{transform:translateY(0px);} 
+}
+
 @media(max-width:900px){
 
 header{
@@ -237,12 +266,12 @@ flex-direction:column;
 gap:18px;
 }
 
-.hero h1{
-font-size:58px;
+.about-grid{
+grid-template-columns:1fr;
 }
 
-.login-section{
-padding:30px;
+.hero h1{
+font-size:60px;
 }
 
 }
@@ -252,278 +281,117 @@ padding:30px;
 <body>
 
 <header>
-<div class="logo">SMP IT Assaidiyyah</div>
+<div class="logo">Nara Coffee</div>
 
 <nav>
 <a href="#tentang">Tentang</a>
-<a href="#program">Program</a>
-<a href="#ppdb">PPDB</a>
+<a href="#menu">Menu</a>
+<a href="#gallery">Gallery</a>
+<a href="#kontak">Kontak</a>
 </nav>
 </header>
 
 <section class="hero">
 <div class="hero-content">
-<h1>SMP IT Assaidiyyah</h1>
+<h1>Nikmati Kopi dengan Suasana Premium</h1>
 
 <p>
-Sekolah Islam modern yang membangun generasi cerdas, berprestasi, dan berakhlak mulia melalui pendidikan berbasis teknologi.
+Nara Coffee menghadirkan pengalaman ngopi modern dengan suasana aesthetic, nyaman, dan cocok untuk bekerja maupun bersantai.
 </p>
 
-<a href="#ppdb" class="btn">Daftar Sekarang</a>
+<a href="#menu" class="btn">Lihat Menu</a>
 </div>
 </section>
 
 <section id="tentang">
-<div style="position:fixed;bottom:25px;right:25px;z-index:999;animation:float 3s ease-in-out infinite;">
-<a href="#ppdb" class="btn" style="border-radius:100px;padding:18px 24px;box-shadow:0 10px 30px rgba(0,0,0,0.2);">
-PPDB Online
-</a>
-</div>
-<h2 class="title">Tentang Sekolah</h2>
+<h2 class="title">Tentang Cafe</h2>
 
 <p class="desc">
-SMP IT Assaidiyyah merupakan sekolah Islam terpadu dengan sistem pendidikan modern yang menggabungkan akademik, karakter islami, dan teknologi.
+Nara Coffee adalah cafe modern dengan konsep minimalis aesthetic yang menghadirkan kopi berkualitas, makanan premium, dan suasana nyaman untuk semua kalangan.
 </p>
-</section>
 
-<section id="program">
-<h2 class="title">Program Unggulan</h2>
+<div class="about-grid">
+<img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1200&auto=format&fit=crop">
 
-<div class="cards">
-<div class="card">
-<h3>Tahfidz Qur'an</h3>
-<p>Pembinaan hafalan dan karakter islami modern.</p>
-</div>
-
-<div class="card">
-<h3>Kelas Teknologi</h3>
-<p>Pembelajaran digital untuk masa depan siswa.</p>
-</div>
-
-<div class="card">
-<h3>Bahasa Inggris</h3>
-<p>Pembelajaran aktif dan komunikatif.</p>
-</div>
-
-<div class="card">
-<h3>Ekstrakurikuler</h3>
-<p>Pengembangan minat dan bakat siswa.</p>
+<div>
+<h2 class="title">Suasana Modern</h2>
+<p class="desc">
+Interior modern dengan nuansa hangat membuat pengalaman nongkrong lebih nyaman dan instagramable.
+</p>
 </div>
 </div>
 </section>
 
-<section id="ppdb">
-<h2 class="title">PPDB Premium</h2>
+<section id="menu">
+<h2 class="title">Menu Favorit</h2>
 
-<p class="desc">
-Silakan buat akun atau login terlebih dahulu untuk mengakses formulir pendaftaran siswa baru dan profil sekolah digital.
+<div class="menu-grid">
+
+<div class="menu-card">
+<img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=1200&auto=format&fit=crop">
+<h3>Kopi Susu Aren</h3>
+<p>Kopi creamy dengan gula aren premium khas Nara Coffee.</p>
+<div class="price">Rp18.000</div>
+</div>
+
+<div class="menu-card">
+<img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1200&auto=format&fit=crop">
+<h3>Cappuccino</h3>
+<p>Perpaduan espresso dan susu dengan foam lembut.</p>
+<div class="price">Rp22.000</div>
+</div>
+
+<div class="menu-card">
+<img src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?q=80&w=1200&auto=format&fit=crop">
+<h3>Matcha Latte</h3>
+<p>Minuman matcha premium dengan rasa creamy dan segar.</p>
+<div class="price">Rp20.000</div>
+</div>
+
+<div class="menu-card">
+<img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop">
+<h3>Croissant</h3>
+<p>Pastry buttery lembut cocok untuk teman ngopi.</p>
+<div class="price">Rp15.000</div>
+</div>
+
+</div>
+</section>
+
+<section id="gallery">
+<h2 class="title">Cafe Gallery</h2>
+
+<div class="gallery">
+<img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?q=80&w=1200&auto=format&fit=crop">
+<img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=1200&auto=format&fit=crop">
+<img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?q=80&w=1200&auto=format&fit=crop">
+</div>
+</section>
+
+<section id="kontak">
+<h2 class="title">Kontak</h2>
+
+<div class="contact-box">
+<p>
+📍 Bogor, Jawa Barat
+<br><br>
+📞 0821-3087-2054
+<br><br>
+📸 Instagram: @naracoffee
+<br><br>
+🕒 Setiap Hari • 10.00 - 23.00
 </p>
-
-<div class="login-section">
-
-<div id="loginBox">
-
-<div style="display:flex;gap:12px;margin-bottom:25px;flex-wrap:wrap;">
-<button class="btn" onclick="showLogin()">Login</button>
-<button class="btn" onclick="showRegister()" style="background:#163d73;">Buat Akun</button>
-</div>
-
-<div id="registerArea" class="hidden">
-
-<div class="form-group">
-<label>Buat Username</label>
-<input type="text" id="registerUsername" placeholder="Masukkan username baru">
-</div>
-
-<div class="form-group">
-<label>Buat Password</label>
-<input type="password" id="registerPassword" placeholder="Masukkan password baru">
-</div>
-
-<button class="btn" onclick="registerAccount()">
-Daftar Akun
-</button>
-
-<div class="success" id="registerSuccess">
-Akun berhasil dibuat🎉
-</div>
-
-<br>
-<hr style="margin:30px 0;border:none;border-top:1px solid #ddd;">
-
-</div>
-
-<div id="loginArea">
-
-<div class="form-group">
-<label>Username</label>
-<input type="text" id="loginUsername" placeholder="Masukkan username">
-</div>
-
-<div class="form-group">
-<label>Password</label>
-<input type="password" id="loginPassword" placeholder="Masukkan password">
-</div>
-
-<button class="btn" onclick="login()">
-Login
-</button>
-
-<div class="error" id="loginError">
-Username atau password salah 
-</div>
-
-</div>
-
-<div id="formBox" class="hidden">
-
-<div class="form-group">
-<label>Nama Lengkap</label>
-<input type="text" id="nama">
-</div>
-
-<div class="form-group">
-<label>Alamat</label>
-<textarea id="alamat"></textarea>
-</div>
-
-<div class="form-group">
-<label>Nomor HP</label>
-<input type="text" id="hp">
-</div>
-
-<div class="form-group">
-<label>Asal Sekolah</label>
-<input type="text" id="asal">
-</div>
-
-<button class="btn" onclick="submitData()">
-Kirim Pendaftaran
-</button>
-
-<div class="success" id="successBox">
-Pendaftaran berhasil dikirim 🎉
-</div>
-
-<div class="error" id="alreadyBox">
-Akun ini sudah pernah mendaftar 
-</div>
-
-</div>
-
 </div>
 </section>
 
 <footer>
-<p>© 2026 SMP IT Assaidiyyah — All Rights Reserved.</p>
+<p>© 2026 Nara Coffee — All Rights Reserved.</p>
 </footer>
 
-<script>
-
-function showRegister(){
-document.getElementById('registerArea').classList.remove('hidden');
-document.getElementById('loginArea').classList.add('hidden');
-}
-
-function showLogin(){
-document.getElementById('registerArea').classList.add('hidden');
-document.getElementById('loginArea').classList.remove('hidden');
-}
-
-function registerAccount(){
-
-const username = document.getElementById('registerUsername').value;
-const password = document.getElementById('registerPassword').value;
-
-if(username.length < 3 || password.length < 3){
-alert('Username dan password minimal 3 karakter');
-return;
-}
-
-localStorage.setItem('account_' + username, password);
-
-document.getElementById('registerSuccess').style.display='block';
-
-setTimeout(()=>{
-showLogin();
-},1500);
-
-}
-
-
-const scriptURL = "https://script.google.com/macros/s/AKfycbyUDm0Xfd7z5ZLCO0UNAaKqqcYWIFPjgazS4mM9xCjct1N_edE5yte49YGRturFz7LD/exec";
-
-let loggedIn = false;
-
-function login(){
-
-const username = document.getElementById('loginUsername').value;
-const password = document.getElementById('loginPassword').value;
-
-const savedPassword = localStorage.getItem('account_' + username);
-
-if(savedPassword !== password){
-document.getElementById('loginError').style.display='block';
-return;
-}
-
-loggedIn = true;
-
-localStorage.setItem('ppdbUser', username);
-
-document.getElementById('loginBox').classList.add('hidden');
-document.getElementById('formBox').classList.remove('hidden');
-
-}
-
-async function submitData(){
-
-if(!loggedIn){
-return;
-}
-
-const username = localStorage.getItem('ppdbUser');
-
-if(localStorage.getItem('submitted_' + username)){
-document.getElementById('alreadyBox').style.display='block';
-return;
-}
-
-const nama = document.getElementById('nama').value;
-const alamat = document.getElementById('alamat').value;
-const hp = document.getElementById('hp').value;
-const asal = document.getElementById('asal').value;
-
-if(!nama || !alamat || !hp || !asal){
-alert('Semua data wajib diisi');
-return;
-}
-
-const data = {
-nama:nama,
-alamat:alamat,
-hp:hp,
-username:username,
-password:'hidden'
-};
-
-await fetch(scriptURL,{
-method:'POST',
-body:JSON.stringify(data)
-});
-
-localStorage.setItem('submitted_' + username, 'true');
-
-document.getElementById('successBox').style.display='block';
-
-}
-
-</script>
+<a href="https://wa.me/6282130872054" target="_blank" class="float-btn">
+Chat WhatsApp
+</a>
 
 </body>
 </html>
 
-
-
-5. Aktifkan GitHub Pages
-6. Website langsung jadi 😭✨
