@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice - Nara Pustaka</title>
+    <!-- Library untuk Generate PDF di HP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
     <style>
         :root {
             --red-brand: #df2027;
@@ -25,7 +28,7 @@
         body {
             background-color: #e5e7eb;
             color: var(--text-main);
-            padding: 10px;
+            padding: 20px;
         }
 
         /* Layout Container untuk Mobile & Desktop */
@@ -41,14 +44,13 @@
             .app-container {
                 flex-direction: row;
             }
-            body { padding: 20px; }
         }
 
         /* --- PANEL ADMIN --- */
         .admin-panel {
             flex: 1;
             background: #ffffff;
-            padding: 20px;
+            padding: 25px;
             border-radius: 8px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             height: fit-content;
@@ -64,7 +66,7 @@
 
         .form-group { margin-bottom: 15px; }
         .form-group label {
-            display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 5px; color: var(--dark-brand);
+            display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 5px;
         }
         .form-control {
             width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9rem;
@@ -81,11 +83,11 @@
             display: grid; grid-template-columns: 2fr 1fr 80px 40px; gap: 8px; margin-bottom: 8px;
         }
 
-        .btn { padding: 10px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; color: white; transition: 0.2s; }
-        .btn:hover { opacity: 0.9; }
+        .btn { padding: 10px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; color: white; transition: all 0.2s;}
         .btn-red { background: var(--red-brand); }
         .btn-dark { background: var(--dark-brand); width: 100%; margin-top: 10px; }
         .btn-print { background: #10b981; width: 100%; font-size: 1.1rem; padding: 15px; margin-top: 20px; }
+        .btn-print:disabled { background: #6b7280; cursor: not-allowed; }
 
         /* --- PREVIEW INVOICE (DESAIN SESUAI GAMBAR) --- */
         .preview-panel {
@@ -98,7 +100,7 @@
         .invoice-paper {
             background: #ffffff;
             width: 100%;
-            min-width: 700px; /* Minimal width agar desain tabel tidak hancur */
+            min-width: 700px;
             max-width: 210mm; /* Standar A4 */
             min-height: 297mm;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
@@ -118,7 +120,6 @@
             position: relative;
         }
 
-        /* Variasi bentuk merah di header */
         .header-top::before {
             content: ''; position: absolute; top: 0; left: 40%;
             width: 150px; height: 10px; background: var(--red-brand);
@@ -126,8 +127,8 @@
         }
 
         .brand-area { display: flex; align-items: center; gap: 15px; z-index: 1; }
-        .brand-logo { max-width: 70px; max-height: 70px; background: transparent; }
-        .brand-area h1 { font-size: 1.5rem; letter-spacing: 1px; color: white;}
+        .brand-logo { max-width: 60px; max-height: 60px; background: white; padding: 2px; border-radius: 50%; object-fit: contain; }
+        .brand-area h1 { font-size: 1.5rem; letter-spacing: 1px; }
         .brand-area p { font-size: 0.7rem; color: #aaa; letter-spacing: 2px; }
 
         .invoice-title-area { text-align: right; z-index: 1; }
@@ -135,7 +136,6 @@
         .invoice-meta-table { font-size: 0.75rem; color: #ddd; margin-left: auto; text-align: left;}
         .invoice-meta-table td { padding: 2px 10px 2px 0; }
 
-        /* Red Accent Ribbon dibawah dark header */
         .header-ribbon {
             background: var(--red-brand);
             height: 35px;
@@ -151,42 +151,25 @@
             display: flex; justify-content: space-between; margin-bottom: 30px;
         }
 
-        .info-block h3 {
-            color: var(--red-brand); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 5px;
-        }
-        .info-block h4 {
-            font-size: 1.1rem; color: var(--dark-brand); margin-bottom: 5px;
-        }
-        .info-block p {
-            font-size: 0.8rem; color: var(--text-light); line-height: 1.4; white-space: pre-wrap;
-        }
+        .info-block h3 { color: var(--red-brand); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 5px; }
+        .info-block h4 { font-size: 1.1rem; color: var(--dark-brand); margin-bottom: 5px; }
+        .info-block p { font-size: 0.8rem; color: var(--text-light); line-height: 1.4; white-space: pre-wrap; }
 
         /* Table */
-        .inv-table {
-            width: 100%; border-collapse: collapse; margin-bottom: 20px;
-        }
-        .inv-table th {
-            background: var(--red-brand); color: white; padding: 12px; text-align: left; font-size: 0.8rem; text-transform: uppercase;
-        }
-        .inv-table td {
-            padding: 12px; font-size: 0.85rem; border-bottom: 1px solid var(--bg-gray); background: #fafafa; color: var(--text-main);
-        }
+        .inv-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .inv-table th { background: var(--red-brand); color: white; padding: 12px; text-align: left; font-size: 0.8rem; text-transform: uppercase; }
+        .inv-table td { padding: 12px; font-size: 0.85rem; border-bottom: 1px solid var(--bg-gray); background: #fafafa; }
         .inv-table tr:nth-child(even) td { background: #ffffff; }
 
         .text-right { text-align: right !important; }
         .text-center { text-align: center !important; }
 
         /* Summary & Total */
-        .summary-section {
-            display: flex; justify-content: flex-end; margin-bottom: 40px;
-        }
-        .summary-table { width: 280px; font-size: 0.85rem; }
-        .summary-table td { padding: 6px 10px; }
-        
-        .total-box {
-            background: var(--red-brand); color: white; font-weight: bold; font-size: 1.1rem;
-        }
-        .total-box td { padding: 10px !important; color: white;}
+        .summary-section { display: flex; justify-content: flex-end; margin-bottom: 40px; }
+        .summary-table { width: 250px; font-size: 0.85rem; }
+        .summary-table td { padding: 6px 0; }
+        .total-box { background: var(--red-brand); color: white; font-weight: bold; font-size: 1.1rem; }
+        .total-box td { padding: 10px !important; }
 
         /* Footer */
         .invoice-footer {
@@ -197,29 +180,15 @@
             margin-bottom: 30px;
         }
         
-        .terms { width: 55%; }
-        .terms h3 { font-size: 0.95rem; color: var(--dark-brand); margin-bottom: 8px; }
-        .terms p { font-size: 0.75rem; color: var(--text-light); line-height: 1.5; }
+        .terms { width: 50%; }
+        .terms h3 { font-size: 0.85rem; color: var(--dark-brand); margin-bottom: 5px; }
+        .terms p { font-size: 0.7rem; color: var(--text-light); line-height: 1.4; }
 
         .signature { text-align: center; width: 200px; font-size: 0.8rem; }
         .signature-line { border-bottom: 1px solid #ccc; height: 60px; margin-bottom: 5px; }
 
-        /* Bottom Shape decoration */
-        .footer-shape {
-            height: 40px; background: var(--red-brand); margin-top: auto; position: relative; display: flex;
-        }
-        .footer-shape::before {
-            content: ''; width: 50%; background: var(--dark-brand); clip-path: polygon(0 0, 90% 0, 100% 100%, 0 100%);
-        }
-
-        /* Print Settings */
-        @media print {
-            body { background: white; padding: 0; }
-            .admin-panel { display: none !important; }
-            .preview-panel { display: block; overflow: visible; justify-content: flex-start; }
-            .invoice-paper { box-shadow: none; max-width: 100%; width: 100%; margin: 0; min-width: auto; }
-            @page { margin: 0; size: A4 portrait; }
-        }
+        .footer-shape { height: 40px; background: var(--red-brand); margin-top: auto; position: relative; display: flex; }
+        .footer-shape::before { content: ''; width: 50%; background: var(--dark-brand); clip-path: polygon(0 0, 90% 0, 100% 100%, 0 100%); }
     </style>
 </head>
 <body>
@@ -230,9 +199,9 @@
             <h2>⚙️ Setup Invoice Nara Pustaka</h2>
             
             <div class="form-group">
-                <label>1. Link Logo (Google Drive)</label>
-                <!-- Pre-filled dengan link dari user -->
-                <input type="text" id="input-logo" class="form-control" value="https://drive.google.com/file/d/131Sh-tvR6-QPWT4xi2k_YQOIYu0F8Ebl/view?usp=drive_link">
+                <label>1. Upload Logo (Dari Galeri HP)</label>
+                <input type="file" id="input-logo" class="form-control" accept="image/*">
+                <p style="font-size: 0.7rem; color: #6b7280; margin-top: 5px;">*Pilih gambar logo dari HP. Logo akan tersimpan otomatis untuk invoice berikutnya.</p>
             </div>
 
             <div class="grid-2">
@@ -262,10 +231,10 @@
             </div>
 
             <div class="items-manager">
-                <label style="color: var(--dark-brand); font-weight: bold; display: block; margin-bottom: 10px;">Daftar Item / Buku</label>
+                <label>Daftar Item / Buku</label>
                 <div id="items-container">
                     <div class="item-row">
-                        <input type="text" class="form-control item-desc" placeholder="Judul / Deskripsi" value="Paket Penerbitan Eksklusif">
+                        <input type="text" class="form-control item-desc" placeholder="Judul / Deskripsi" value="Paket Penerbitan">
                         <input type="number" class="form-control item-price" placeholder="Harga" value="500000">
                         <input type="number" class="form-control item-qty" placeholder="Qty" value="1">
                         <button class="btn btn-red" onclick="removeRow(this)">X</button>
@@ -274,27 +243,27 @@
                 <button class="btn btn-dark" onclick="addRow()">+ Tambah Baris</button>
             </div>
 
-            <button class="btn btn-print" onclick="window.print()">🖨️ CETAK / SAVE PDF</button>
+            <button id="btn-download" class="btn btn-print" onclick="generatePDF()">🖨️ DOWNLOAD PDF & BACKUP</button>
         </div>
 
         <!-- INVOICE PREVIEW -->
         <div class="preview-panel">
-            <div class="invoice-paper">
+            <div class="invoice-paper" id="invoice-export-area">
                 
                 <!-- Header Dark -->
                 <div class="header-top">
                     <div class="brand-area">
-                        <!-- Direct Link ID GDrive sudah di-embed langsung di sini -->
-                        <img id="view-logo" class="brand-logo" src="https://drive.google.com/uc?export=view&id=131Sh-tvR6-QPWT4xi2k_YQOIYu0F8Ebl" alt="Logo Nara Pustaka" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><rect width=\'100\' height=\'100\' fill=\'%23df2027\'/><text x=\'50\' y=\'55\' font-size=\'20\' fill=\'white\' text-anchor=\'middle\'>LOGO</text></svg>'">
+                        <!-- Default logo bentuk kotak abstrak merah jika belum upload -->
+                        <img id="view-logo" class="brand-logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23df2027'/><path d='M20 20 h60 v60 h-60 z' fill='white' opacity='0.2'/></svg>" alt="Logo">
                         <div>
                             <h1>NARA PUSTAKA</h1>
-                            <p>PENERBIT BUKU INDONESIA</p>
+                            <p>PENERBIT BUKU NASIONAL</p>
                         </div>
                     </div>
                     <div class="invoice-title-area">
                         <h2>INVOICE</h2>
                         <table class="invoice-meta-table">
-                            <tr><td>Invoice Number:</td><td id="view-no">NP/2026/001</td></tr>
+                            <tr><td>Invoice Number:</td><td id="view-no">-</td></tr>
                             <tr><td>Account No:</td><td>111-047-0742</td></tr>
                             <tr><td>Invoice Date:</td><td id="view-tanggal">-</td></tr>
                         </table>
@@ -308,14 +277,14 @@
                         <div class="info-block" style="width: 50%;">
                             <h3>INVOICE TO:</h3>
                             <h4 id="view-nama">Nama Pelanggan</h4>
-                            <p id="view-alamat">Alamat pengiriman akan muncul di sini.</p>
+                            <p id="view-alamat">Alamat akan muncul di sini</p>
                         </div>
                         <div class="info-block" style="width: 40%;">
                             <h3 style="color: var(--red-brand); margin-bottom: 10px;">Payment Method</h3>
                             <table style="font-size: 0.8rem; width: 100%; border-collapse: collapse;">
-                                <tr><td style="padding: 3px 0;">Bank:</td><td><strong>BCA</strong></td></tr>
-                                <tr><td style="padding: 3px 0;">Account No:</td><td><strong>111-047-0742</strong></td></tr>
-                                <tr><td style="padding: 3px 0;">Account Name:</td><td><strong>Deby Verona</strong></td></tr>
+                                <tr><td style="padding: 2px 0;">Bank:</td><td><strong>BCA</strong></td></tr>
+                                <tr><td style="padding: 2px 0;">Account No:</td><td>111-047-0742</td></tr>
+                                <tr><td style="padding: 2px 0;">Account Name:</td><td>Deby Verona</td></tr>
                             </table>
                         </div>
                     </div>
@@ -341,7 +310,7 @@
                                 <td class="text-right" id="view-subtotal">Rp 0</td>
                             </tr>
                             <tr>
-                                <td>Shipping/Ongkir:</td>
+                                <td>Ongkir:</td>
                                 <td class="text-right" id="view-ongkir">Rp 0</td>
                             </tr>
                             <tr class="total-box">
@@ -370,39 +339,45 @@
     </div>
 
     <script>
-        // Set Default Date to Today
+        // 1. LINK WEB APP GOOGLE APPS SCRIPT (SUDAH TERINTEGRASI PERMANEN)
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbzH1HpVCUqI8LoZXCc3ovwzRq38vSg2bICre3hNcf6_7nvrOePCbqqyyKho3YgFWvum7w/exec";
+
+        // Set Default Date
         document.getElementById('input-tanggal').value = new Date().toISOString().substring(0, 10);
 
-        // Bind events to inputs
         const inputs = ['input-no', 'input-tanggal', 'input-nama', 'input-alamat', 'input-ongkir'];
         inputs.forEach(id => document.getElementById(id).addEventListener('input', updateView));
 
-        // Format Currency (Rupiah)
         function formatRp(angka) {
             return new Intl.NumberFormat('id-ID').format(angka);
         }
 
-        // Logic Konversi Link GDrive ke Direct Image Link
-        document.getElementById('input-logo').addEventListener('input', function(e) {
-            const url = e.target.value;
-            let fileId = '';
-            
-            // Regex to catch /d/ID or ?id=ID
-            const regexPath = /\/file\/d\/([a-zA-Z0-9_-]+)/;
-            const regexQuery = /id=([a-zA-Z0-9_-]+)/;
-            
-            if (regexPath.test(url)) {
-                fileId = url.match(regexPath)[1];
-            } else if (regexQuery.test(url)) {
-                fileId = url.match(regexQuery)[1];
-            }
+        // 2. LOGIC UPLOAD LOGO & SIMPAN KE MEMORI HP (LOCALSTORAGE)
+        const logoInput = document.getElementById('input-logo');
+        const viewLogo = document.getElementById('view-logo');
 
-            if(fileId) {
-                document.getElementById('view-logo').src = `https://drive.google.com/uc?export=view&id=${fileId}`;
+        // Saat web dibuka, cek apakah HP ini pernah upload logo sebelumnya
+        const savedLogo = localStorage.getItem('naraLogoBase64');
+        if(savedLogo) {
+            viewLogo.src = savedLogo;
+        }
+
+        // Saat admin memilih gambar dari Galeri
+        logoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const base64String = event.target.result;
+                    // Tampilkan di web
+                    viewLogo.src = base64String;
+                    // Simpan permanen di memori browser HP ini
+                    localStorage.setItem('naraLogoBase64', base64String);
+                };
+                reader.readAsDataURL(file);
             }
         });
 
-        // Add & Remove Item Rows
         function addRow() {
             const container = document.getElementById('items-container');
             const rowHTML = `
@@ -431,9 +406,7 @@
             });
         }
 
-        // Update Preview Panel
         function updateView() {
-            // Update Text Info
             document.getElementById('view-no').innerText = document.getElementById('input-no').value || '#';
             
             const rawDate = document.getElementById('input-tanggal').value;
@@ -445,7 +418,6 @@
             document.getElementById('view-nama').innerText = document.getElementById('input-nama').value || 'Nama Pelanggan';
             document.getElementById('view-alamat').innerText = document.getElementById('input-alamat').value || '-';
 
-            // Calculate Totals
             const ongkir = parseFloat(document.getElementById('input-ongkir').value) || 0;
             document.getElementById('view-ongkir').innerText = `Rp ${formatRp(ongkir)}`;
 
@@ -453,7 +425,6 @@
             const tbody = document.getElementById('view-items');
             tbody.innerHTML = '';
 
-            // Generate Table Rows
             document.querySelectorAll('.item-row').forEach(row => {
                 const desc = row.querySelector('.item-desc').value || '-';
                 const price = parseFloat(row.querySelector('.item-price').value) || 0;
@@ -471,12 +442,87 @@
                 `);
             });
 
-            // Update Summary Text
             document.getElementById('view-subtotal').innerText = `Rp ${formatRp(subtotal)}`;
             document.getElementById('view-total').innerText = `Rp ${formatRp(subtotal + ongkir)}`;
         }
 
-        // Initial render on page load
+        async function generatePDF() {
+            const btn = document.getElementById('btn-download');
+            const originalText = btn.innerHTML;
+            
+            // Ubah text tombol agar admin tahu proses sedang berjalan
+            btn.innerHTML = '⏳ Memproses PDF & Backup...';
+            btn.disabled = true;
+
+            const element = document.getElementById('invoice-export-area');
+            const invNo = (document.getElementById('input-no').value || 'Invoice').replace(/\//g, '-');
+            const nama = (document.getElementById('input-nama').value || 'Pelanggan').replace(/\s/g, '_');
+            const namaFile = `Invoice_${invNo}_${nama}.pdf`;
+
+            // Pengaturan PDF Kualitas Tinggi khusus Mobile
+            const opt = {
+                margin:       0,
+                filename:     namaFile,
+                image:        { type: 'jpeg', quality: 1 },
+                html2canvas:  { scale: 2, useCORS: true, allowTaint: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            try {
+                // 1. Snapshot HTML jadi File PDF (Base64 Mode)
+                const pdfBase64DataUri = await html2pdf().set(opt).from(element).output('datauristring');
+                
+                // 2. Download paksa ke HP Lokal Admin
+                const link = document.createElement('a');
+                link.href = pdfBase64DataUri;
+                link.download = namaFile;
+                link.click();
+
+                // 3. BACKUP OTOMATIS KE CLOUD SPREADSHEET 
+                // Memisahkan data file asli dari string base64
+                const base64Raw = pdfBase64DataUri.split(',')[1];
+                
+                // Menyiapkan Data Tabel untuk Spreadsheet
+                const payload = {
+                    fileName: namaFile,
+                    pdfBase64: base64Raw,
+                    noInvoice: document.getElementById('input-no').value,
+                    tanggal: document.getElementById('input-tanggal').value,
+                    nama: document.getElementById('input-nama').value,
+                    alamat: document.getElementById('input-alamat').value,
+                    ongkir: document.getElementById('input-ongkir').value,
+                    subtotal: document.getElementById('view-subtotal').innerText,
+                    total: document.getElementById('view-total').innerText
+                };
+
+                // Kirim lewat jalur belakang ke Link Web App Anda
+                const response = await fetch(GAS_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                
+                const result = await response.json();
+                
+                if(result.status === 'success') {
+                    btn.innerHTML = '✅ Sukses! Data & PDF Aman.';
+                } else {
+                    btn.innerHTML = '⚠️ PDF Terdownload, Gagal Backup Cloud.';
+                    console.error("Cloud Error:", result.message);
+                }
+
+            } catch (error) {
+                console.error('Terjadi error saat membuat PDF:', error);
+                btn.innerHTML = '❌ Gagal. Coba Lagi';
+            }
+
+            // Kembalikan tombol seperti semula setelah 4 detik
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 4000);
+        }
+
+        // Init
         bindItems();
         updateView();
     </script>
