@@ -451,7 +451,7 @@
             const originalText = btn.innerHTML;
             
             // Ubah text tombol agar admin tahu proses sedang berjalan
-            btn.innerHTML = '⏳ Memproses PDF & Backup...';
+            btn.innerHTML = '⏳ Memproses PDF...';
             btn.disabled = true;
 
             const element = document.getElementById('invoice-export-area');
@@ -469,17 +469,12 @@
             };
 
             try {
-                // 1. Snapshot HTML jadi File PDF (Base64 Mode)
-                const pdfBase64DataUri = await html2pdf().set(opt).from(element).output('datauristring');
-                
-                // 2. Download paksa ke HP Lokal Admin
-                const link = document.createElement('a');
-                link.href = pdfBase64DataUri;
-                link.download = namaFile;
-                link.click();
+                // 1. Trigger Download via library (lebih stabil)
+                await html2pdf().set(opt).from(element).save();
 
-                // 3. BACKUP OTOMATIS KE CLOUD SPREADSHEET 
-                // Memisahkan data file asli dari string base64
+                // 2. BACKUP OTOMATIS KE CLOUD SPREADSHEET 
+                // Mengambil Base64 hanya untuk backup tanpa mengandalkan download manual
+                const pdfBase64DataUri = await html2pdf().set(opt).from(element).output('datauristring');
                 const base64Raw = pdfBase64DataUri.split(',')[1];
                 
                 // Menyiapkan Data Tabel untuk Spreadsheet
